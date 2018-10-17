@@ -1,0 +1,85 @@
+#include <Keyboard.h>
+#include <HID.h>
+
+int State = 0;
+int Col, PreCol, subCol;
+int Row, PreRow, subRow;
+
+void setup() {
+  Serial.begin (115200);
+  pinMode (6, OUTPUT);
+  pinMode (7, OUTPUT);
+  pinMode (8, INPUT_PULLUP);
+  pinMode (9, INPUT_PULLUP);
+  pinMode (10, INPUT_PULLUP);
+}
+
+void loop() {
+  switch (State){
+    case 0: 
+        for (int i = 1; i <= 2; i ++){
+          digitalWrite (6+i, LOW);
+          for (int j = 0; j <= 2; j ++){
+            if (digitalRead(8+j) == 0){
+              subRow = i;
+              subCol = j;
+            }
+          }
+          digitalWrite (6+i, HIGH);
+          State = 1;
+        }
+    break;
+    case 1:
+        PreCol = Col;
+        PreRow = PreRow;
+        Col = subCol;
+        Row = subRow;
+        
+        if (PreCol != Col && PreRow != Row){
+          State = 2;
+        } else {
+          State = 0;
+        }
+    break;
+    case 2:
+        String Data = String (Row) + String ("   ") + String (Col) + String ("   ");
+        Serial.println (Data);
+        switch (Row){
+          case 1:
+            switch (Col){
+              case 0:
+                Keyboard.press ('a');
+                Keyboard.releaseAll ();
+              break;
+              case 1:
+                Keyboard.press ('s');
+                Keyboard.releaseAll ();
+              break;
+              case 2:
+                Keyboard.press ('d');
+                Keyboard.releaseAll ();
+              break;
+            }
+          break;
+          case 2:
+            switch (Col){
+              case 0:
+                Keyboard.press ('z');
+                Keyboard.releaseAll ();
+              break;
+              case 1:
+                Keyboard.press ('x');
+                Keyboard.releaseAll ();
+              break;
+              case 2:
+                Keyboard.press ('c');
+                Keyboard.releaseAll ();
+              break;
+            }
+          break;
+        }
+        State = 0;
+    break;
+  }
+  
+}
