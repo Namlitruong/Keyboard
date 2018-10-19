@@ -7,79 +7,220 @@ int Row, PreRow, subRow;
 
 void setup() {
   Serial.begin (115200);
-  pinMode (6, OUTPUT);
-  pinMode (7, OUTPUT);
+  //ROW
+  pinMode (A0, OUTPUT);
+  pinMode (A1, OUTPUT);
+  pinMode (A2, OUTPUT);
+  pinMode (A3, OUTPUT);
+  //COL
+  pinMode (3, INPUT_PULLUP);
+  pinMode (4, INPUT_PULLUP);
+  pinMode (5, INPUT_PULLUP);
+  pinMode (6, INPUT_PULLUP);
+  pinMode (7, INPUT_PULLUP);
   pinMode (8, INPUT_PULLUP);
   pinMode (9, INPUT_PULLUP);
   pinMode (10, INPUT_PULLUP);
+  pinMode (11, INPUT_PULLUP);
+  pinMode (12, INPUT_PULLUP);
 }
 
 void loop() {
-  switch (State){
-    case 0: 
-        for (int i = 1; i <= 2; i ++){
-          digitalWrite (6+i, LOW);
-          for (int j = 0; j <= 2; j ++){
-            if (digitalRead(8+j) == 0){
-              subRow = i;
-              subCol = j;
-            }
+
+for (int i = 1; i <= 4; i ++){
+  digitalWrite ((A0 - 1)+i, LOW);
+  for (int j = 0; j <= 9; j ++){
+    if (digitalRead(3+j)){
+      subRow = 0;
+      subCol = 0;
+    }else{
+      subRow = i;
+      subCol = j;
+      digitalWrite ((A0 - 1)+i, HIGH);
+      Serial.println (String (subRow) + String ("   ") + String (subCol));
+      
+      switch (subRow){
+        case 1:
+          switch (subCol){
+            case 0:
+              Keyboard.press ('1');
+              Keyboard.releaseAll ();
+            break;
+            case 1:
+              Keyboard.press ('2');
+              Keyboard.releaseAll ();
+            break;
+            case 2:
+              Keyboard.press ('3');
+              Keyboard.releaseAll ();
+            break;
+            case 3:
+              Keyboard.press ('4');
+              Keyboard.releaseAll ();
+            break;
+            case 4:
+              Keyboard.press ('5');
+              Keyboard.releaseAll ();
+            break;
+            case 5:
+              Keyboard.press ('6');
+              Keyboard.releaseAll ();
+            break;
+            case 6:
+              Keyboard.press ('7');
+              Keyboard.releaseAll ();
+            break;
+            case 7:
+              Keyboard.press ('8');
+              Keyboard.releaseAll ();
+            break;
+            case 8:
+              Keyboard.press ('9');
+              Keyboard.releaseAll ();
+            break;
+            case 9:
+              Keyboard.press ('0');
+              Keyboard.releaseAll ();
+            break;
           }
-          digitalWrite (6+i, HIGH);
-          State = 1;
-        }
-    break;
-    case 1:
-        PreCol = Col;
-        PreRow = PreRow;
-        Col = subCol;
-        Row = subRow;
-        
-        if (PreCol != Col && PreRow != Row){
-          State = 2;
-        } else {
-          State = 0;
-        }
-    break;
-    case 2:
-        String Data = String (Row) + String ("   ") + String (Col) + String ("   ");
-        Serial.println (Data);
-        switch (Row){
-          case 1:
-            switch (Col){
-              case 0:
-                Keyboard.press ('a');
-                Keyboard.releaseAll ();
-              break;
-              case 1:
-                Keyboard.press ('s');
-                Keyboard.releaseAll ();
-              break;
-              case 2:
-                Keyboard.press ('d');
-                Keyboard.releaseAll ();
-              break;
-            }
-          break;
-          case 2:
-            switch (Col){
-              case 0:
-                Keyboard.press ('z');
-                Keyboard.releaseAll ();
-              break;
-              case 1:
-                Keyboard.press ('x');
-                Keyboard.releaseAll ();
-              break;
-              case 2:
-                Keyboard.press ('c');
-                Keyboard.releaseAll ();
-              break;
-            }
-          break;
-        }
-        State = 0;
-    break;
+        break;
+        case 2:
+          switch (subCol){
+            case 0:
+              Keyboard.press ('q');
+              Keyboard.releaseAll ();
+            break;
+            case 1:
+              Keyboard.press ('w');
+              Keyboard.releaseAll ();
+            break;
+            case 2:
+              Keyboard.press ('e');
+              Keyboard.releaseAll ();
+            break;
+            case 3:
+              Keyboard.press ('r');
+              Keyboard.releaseAll ();
+            break;
+            case 4:
+              Keyboard.press ('t');
+              Keyboard.releaseAll ();
+            break;
+            case 5:
+              Keyboard.press ('y');
+              Keyboard.releaseAll ();
+            break;
+            case 6:
+              Keyboard.press ('u');
+              Keyboard.releaseAll ();
+            break;
+            case 7:
+              Keyboard.press ('i');
+              Keyboard.releaseAll ();
+            break;
+            case 8:
+              Keyboard.press ('o');
+              Keyboard.releaseAll ();
+            break;
+            case 9:
+              Keyboard.press ('p');
+              Keyboard.releaseAll ();
+            break;
+          }
+        break;
+        case 3:
+          switch (subCol){
+            case 0:
+              Keyboard.press ('a');
+              Keyboard.releaseAll ();
+            break;
+            case 1:
+              Keyboard.press ('s');
+              Keyboard.releaseAll ();
+            break;
+            case 2:
+              Keyboard.press ('d');
+              Keyboard.releaseAll ();
+            break;
+            case 3:
+              Keyboard.press ('f');
+              Keyboard.releaseAll ();
+            break;
+            case 4:
+              Keyboard.press ('g');
+              Keyboard.releaseAll ();
+            break;
+            case 5:
+              Keyboard.press ('h');
+              Keyboard.releaseAll ();
+            break;
+            case 6:
+              Keyboard.press ('j');
+              Keyboard.releaseAll ();
+            break;
+            case 7:
+              Keyboard.press ('k');
+              Keyboard.releaseAll ();
+            break;
+            case 8:
+              Keyboard.press ('l');
+              Keyboard.releaseAll ();
+            break;
+            case 9:
+              Keyboard.press (0x28);
+              Keyboard.releaseAll ();
+            break;
+          }
+        break;
+        case 4:
+          switch (subCol){
+            case 0:
+              Keyboard.press (KEY_LEFT_SHIFT);
+            break;
+            case 1:
+              Keyboard.press ('z');
+              Keyboard.releaseAll ();
+            break;
+            case 2:
+              Keyboard.press ('x');
+              Keyboard.releaseAll ();
+            break;
+            case 3:
+              Keyboard.press ('c');
+              Keyboard.releaseAll ();
+            break;
+            case 4:
+              Keyboard.press ('v');
+              Keyboard.releaseAll ();
+            break;
+            case 5:
+              Keyboard.press ('b');
+              Keyboard.releaseAll ();
+            break;
+            case 6:
+              Keyboard.press ('n');
+              Keyboard.releaseAll ();
+            break;
+            case 7:
+              Keyboard.press ('m');
+              Keyboard.releaseAll ();
+            break;
+            case 8:
+              Keyboard.press ('m');
+              Keyboard.releaseAll ();
+            break;
+            case 9:
+              Keyboard.press (KEY_BACKSPACE);
+              Keyboard.releaseAll ();
+            break;
+          }
+        break;
+      }
+      break;
+    }
   }
+  digitalWrite ((A0 - 1)+i, HIGH);
+}
+delay (100);
   
 }
